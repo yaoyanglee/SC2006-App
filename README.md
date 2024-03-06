@@ -69,4 +69,4 @@ This is a fairly important functionality. If you need help, refer to timestamp 1
 
 ## Other implementations
 
-The video also guides you through the development of the **Favourites Screen**, **Add?/Remove Favourites**,**Placing Markers on the Map for EV charging stations**.
+The video also guides you through the development of the **Favourites Screen**, **Add/Remove Favourites**,**Placing Markers on the Map for EV charging stations**.

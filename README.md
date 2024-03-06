@@ -73,7 +73,7 @@ The video also guides you through the development of the **Favourites Screen**, 
 
 # Semantic Commit Messages
 
-From the introduction given by Prof Li Yi, I believe a clean commit history is a makring point for the Lab Assignment. To that end we will be standardizing the semantics of the commit messages by adhering to the standards below. Please ensure that all commit messages to the main repository follows the semantics below.
+From the introduction given by Prof Li Yi, I believe a clean commit history is a marking point for the Lab Assignment. To that end we will be standardizing the semantics of the commit messages by adhering to the standards below. Please ensure that all commit messages to the main repository follows the semantics below.
 
 See how a minor change to your commit message style can make you a better programmer.
 

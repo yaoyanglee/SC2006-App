@@ -53,8 +53,10 @@ This is the root of the app. You can think of this as the app we are developing 
 ### Getting the User information
 
 This is a fairly important functionality. In general we are using [clerk](https://clerk.com/), a third party authentication service that has integrations with React Native. \
+
 We are using _clerk_ to handle the login using Gmail. You can access the user details from any component by following the details below. \
-Refer to "App/Screen/HomeScreen/Header.jsx" for an example. \
+
+Refer to "App/Screen/HomeScreen/Header.jsx" for an example.
 
 **(Accessing user details)**
 

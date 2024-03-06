@@ -31,7 +31,7 @@ $ brew install watchman
 5. Scan the QR code that is generated (Let me know if you into an issue)
 ```
 
-**Initial Setup (MacOS)**
+**Initial Setup (MacOS)** \
 You can try the steps for Windows and scan the QR Code. However if you get a connection timeout, follow the instructions below instead.
 
 ```

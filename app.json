@@ -25,6 +25,14 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-font", [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow 2006App to use your location."
+        }
+      ]
+    ]
   }
 }

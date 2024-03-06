@@ -21,14 +21,27 @@ $ brew update
 $ brew install watchman
 ```
 
-**Inital Setup (Drop me a text if you run into issues for step 5)**
+**Inital Setup (Windows)**
 
 ```
 1. git clone https://github.com/yaoyanglee/SC2006-App.git
 2. cd SC2006-App
 3. npm install
 4. npm start
-5. Scan the QR code that is generated
+5. Scan the QR code that is generated (Let me know if you into an issue)
+```
+
+**Initial Setup (MacOS)**
+You can try the steps for Windows and scan the QR Code. However if you get a connection timeout, follow the instructions below instead.
+
+```
+1. git clone https://github.com/yaoyanglee/SC2006-App.git
+2. cd SC2006-App
+3. npm install
+4. sudo npm install --global @expo/ngrok^4.1.0
+5. Enter the password to your computer
+6. npm start
+7. Scan the QR code that is generated (Let me know if you into an issue)
 ```
 
 # Key pointers for development

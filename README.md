@@ -1,6 +1,6 @@
 # Setting up
 
-This set up guide assumes that everyone has **git** installed on their computer and **Expo Go** installed on their phone. If you do not have it installed please do a quick google search and install it!
+This set up guide assumes that everyone has **git** installed on their computer and **Expo Go** installed on their phone. If you do not have it installed please do a quick google search and install it! Please follow the **[semantic commit message](#semantic-commit-messages)**.
 
 To clone and set up the react native environment for development locally, please follow these steps. Drop me a text if there if you followed the steps below and still run into errors.
 

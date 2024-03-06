@@ -1,6 +1,17 @@
 # Setting up
 
+This set up guide assumes that everyone has git installed. If you do not have it installed please do a quick google search and install it!
+
 To clone and set up the react native environment for development locally, please follow these steps. Drop me a text if there if you followed the steps below and still run into errors.
+
+There are some differences in the required software for running the project on Windows and on MacOS. Refer to the instructions for your OS to get started.
+**(For Windows)**
+
+1. Download [NodeJS](https://nodejs.org/en)
+
+**(For MacOS)**
+
+**Inital Setup**
 
 ```
 1. git clone https://github.com/yaoyanglee/SC2006-App.git

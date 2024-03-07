@@ -8,10 +8,12 @@ import Header from './Header'
 import SearchBar from './SearchBar'
 import GlobalApi from './../../Utils/GlobalApi'
 import PlaceListView from './PlaceListView'
+import { SelectMarkerContext } from '../../Context/SelectedMarkerContext'
 
 export default function HomeScreen() {
   const {location, setLocation} = useContext(UserLocationContext);
   const [placeList, setPlaceList] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState([]);
 
   // The useEffect gets the nearby places, in our case carparks and EV charging points (video tutorial).
   // useEffect basically runs the function in the background. And can execute multiple times as users use the app
@@ -31,7 +33,7 @@ export default function HomeScreen() {
           "center": {
             "latitude": location?.latitude,
             "longitude": location?.longitude},
-          "radius": 5000.0
+          "radius": 750.0
         }
       }
     }
@@ -45,17 +47,23 @@ export default function HomeScreen() {
   }
 
   return (
-    <SafeAreaView>
-      <View style={styles.headerContainer}>
-        <Header />
-        <SearchBar searchedLocation={(location)=>{console.log(location)}}/>
-      </View>
-      
-      <AppMapView placeList={placeList}/>
-      <View style={styles.placeListContainer}>
-        {placeList&&<PlaceListView placeList={placeList}/>}
-      </View>
-    </SafeAreaView>
+    <SelectMarkerContext.Provider value={{selectedMarker, setSelectedMarker}}>
+      <SafeAreaView>
+        <View style={styles.headerContainer}>
+          <Header />
+          {/* Here we basically find the carparks that are near the searched locations that the users have input. The default, aka on app launch, the nearby carparks are displayed first */}
+          {/* console.log(location) */}
+          <SearchBar searchedLocation={(location)=>setLocation({latitude: location.lat, longitude: location.lng})}/>
+        </View>
+        
+        <AppMapView placeList={placeList}/>
+        <View style={styles.placeListContainer}>
+          {placeList&&<PlaceListView placeList={placeList}/>}
+        </View>
+      </SafeAreaView>
+    </SelectMarkerContext.Provider>
+    
+    
   )
 }
 

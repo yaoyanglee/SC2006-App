@@ -19,16 +19,11 @@ export default function AppMapView({placeList}) {
                 latitudeDelta: 0.0422,
                 longitudeDelta: 0.0421
             }}> 
-            <Marker>
+            {/* This section here is responsible for placing the markers on the map, in essence the parking point thing on the map */}
               {placeList && placeList.map((item, index) => (
-                <Markers key={index} place={item}/>
+                <Markers key={index} place={item} index={index}/>
+                // <Marker coordinate={{latitude: item.location?.latitude, longitude: item.location?.longitude}} key={index}/>
               ))}
-            </Marker>
-            {/* This is abit redundant will convert to a self closing tag. Re-use in the future if necessary*/}
-            {/* <Marker coordinate={{
-                latitude:location?.latitude,
-                longitude:location?.longitude
-            }}/> */}
             </MapView> 
         </View>
     )

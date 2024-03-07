@@ -35,7 +35,7 @@ $ brew install watchman
 You can try the steps for Windows and scan the QR Code. However if you get a connection timeout, follow the instructions below instead.
 
 ```
-1. git clone https://github.com/yaoyanglee/SC2006-App.git
+1. git clone https://github.com/USERNAME/SC2006-App.git
 2. cd SC2006-App
 3. npm install
 4. sudo npm install --global @expo/ngrok^4.1.0

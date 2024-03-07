@@ -6,8 +6,9 @@ import React, { useContext } from 'react'
 // https://mapstyle.withgoogle.com/
 import MapViewStyle from './../../Utils/MapViewStyle.json'
 import { UserLocationContext } from '../../Context/UserLocationContext'
+import Markers from './Markers'
 
-export default function AppMapView() {
+export default function AppMapView({placeList}) {
     const {location, setLocation} = useContext(UserLocationContext);
 
     return location?.latitude&&(
@@ -17,13 +18,18 @@ export default function AppMapView() {
                 longitude:location?.longitude,
                 latitudeDelta: 0.0422,
                 longitudeDelta: 0.0421
-            }}/> 
+            }}> 
+            <Marker>
+              {placeList && placeList.map((item, index) => (
+                <Markers key={index} place={item}/>
+              ))}
+            </Marker>
             {/* This is abit redundant will convert to a self closing tag. Re-use in the future if necessary*/}
             {/* <Marker coordinate={{
                 latitude:location?.latitude,
                 longitude:location?.longitude
-            }}/>
-            </MapView> */}
+            }}/> */}
+            </MapView> 
         </View>
     )
 }

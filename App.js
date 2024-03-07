@@ -30,7 +30,7 @@ export default function App() {
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location.coords);
       // IMPORTANT: extract the current user's location
-      console.log(location);
+      // console.log(location);
     })();
   }, []);
 

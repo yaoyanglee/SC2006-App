@@ -82,9 +82,9 @@ Refer to "App/Screen/HomeScreen/Header.jsx" for an example.
 
 This is a fairly important functionality. If you need help, refer to timestamp 1:09:00 of the video.
 
-## Other implementations
+## Reporting Roadworks and Reporting Speed Snipers
 
-The video also guides you through the development of the **Favourites Screen**, **Add/Remove Favourites**,**Placing Markers on the Map for EV charging stations**.
+You guys can refer to timestamp 2:38:00 of the video to find out how to push data to the database and pull it back again. You guys will have to create the options for that.
 
 # Semantic Commit Messages
 

@@ -40,9 +40,11 @@ export default function FavouriteScreen() {
           <Text style={{fontFamily: 'outfit', marginTop: 5}}>Loading...</Text>
         </View> : null }
 
-        {/* ISSUE HERE */}
-        <FlatList data={favList} renderItem={(item, index) => (
-          <PlaceItem place={item.place} isFav={true} />
+        {/* Need to improve formatting here */}
+        <FlatList style={{paddingBottom: 200}} data={favList} renderItem={(item, index) => (
+          // For debugging purposes 
+          // {console.log('item', item.item)}
+          <PlaceItem place={item.item.place} isFav={true} markedFav={() => getFav()}/>
         )}/>
     </SafeAreaView>
   )

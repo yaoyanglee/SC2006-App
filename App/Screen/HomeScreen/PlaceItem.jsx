@@ -81,7 +81,7 @@ export default function PlaceItem({place, isFav, markedFav}) {
             </Pressable>
         </View>
       </View>
-      {/* Only display heart icon if the item is not favourited previously */}
+      {/* Only change heart icon depending if the item is favourited or not */}
       {!isFav ? <Pressable style={{position: 'absolute', right:0, margin: 7}} onPress={() => onSetFav(place)}>
         <Ionicons name="heart-outline" size={24} color="white" /> 
       </Pressable> 

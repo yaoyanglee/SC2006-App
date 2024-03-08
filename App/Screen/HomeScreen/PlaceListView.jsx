@@ -11,6 +11,7 @@ import { useUser } from '@clerk/clerk-expo';
 export default function PlaceListView({placeList}) {
     const {user} = useUser();
 
+    const [loading, setLoading] = useState(false);
     // Store favourites list
     const [favList, setFavList] = useState([]);
 
@@ -41,6 +42,8 @@ export default function PlaceListView({placeList}) {
     }, [user])
 
     const getFav = async () => {
+      setLoading(true);
+
       // We need to do this to ensure that the list is empty so that we can get the updated list, assuming that the user removes favourites
       setFavList([])
 
@@ -50,30 +53,32 @@ export default function PlaceListView({placeList}) {
         // doc.data() is never undefined for query doc snapshots
         // console.log(doc.id, " => ", doc.data());
         setFavList(favList => [...favList, doc.data()]);
+        setLoading(false);
       });
     }
 
     // Check if a carpark is considered a favourite
     const isFav = (place) => {
-      const result = favList.find(item => item.place.id == place.id)
-      console.log(result);
-
+      const result = favList.find(item => item.place.id == place.id); 
       return result ? true : false;
     }
     return (
     <View>
       <FlatList 
+        onRefresh={() => getFav()}
+        refreshing={loading}
         data={placeList} 
         horizontal={true}
+        pagingEnabled
         ref={flatListRef}
         getItemLayout={getItemLayout}
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}) => (
-            <View>
+            <View indeex={index}>
                 {/* You need a key for multiple items */}
-                <Text key={index}>
-                    <PlaceItem place={item} isFav={isFav(item)} markedFav={() => getFav()}/>
-                </Text> 
+                {/* <Text key={index}> */}
+                <PlaceItem place={item} isFav={isFav(item)} markedFav={() => getFav()}/>
+                {/* </Text>  */}
             </View>
         )}
         />

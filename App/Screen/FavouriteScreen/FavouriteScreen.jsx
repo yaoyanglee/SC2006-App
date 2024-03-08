@@ -14,12 +14,15 @@ export default function FavouriteScreen() {
 
   const {user} = useUser();
   const [favList, setFavList] = useState([]);
+  const [loading, setLoading] = useState(false);
   
   useEffect(() => {
     user && getFav();
   }, [user])
 
   const getFav = async () => {
+    setLoading(true);
+
     // We need to do this to ensure that the list is empty so that we can get the updated list, assuming that the user removes favourites
     setFavList([])
 
@@ -29,6 +32,7 @@ export default function FavouriteScreen() {
       // doc.data() is never undefined for query doc snapshots
       // console.log(doc.id, " => ", doc.data());
       setFavList(favList => [...favList, doc.data()]);
+      setLoading(false);
     });
   }
 
@@ -40,10 +44,8 @@ export default function FavouriteScreen() {
           <Text style={{fontFamily: 'outfit', marginTop: 5}}>Loading...</Text>
         </View> : null }
 
-        {/* Need to improve formatting here */}
-        <FlatList style={{paddingBottom: 200}} data={favList} renderItem={(item, index) => (
-          // For debugging purposes 
-          // {console.log('item', item.item)}
+        {/* ISSUE HERE */}
+        <FlatList style={{paddingBottom: 200}} onRefresh={() => getFav()} refreshing={loading} data={favList} renderItem={(item, index) => (
           <PlaceItem place={item.item.place} isFav={true} markedFav={() => getFav()}/>
         )}/>
     </SafeAreaView>

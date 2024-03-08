@@ -48,6 +48,7 @@ export default function PlaceItem({place, isFav, markedFav}) {
     } else {
       Alert.alert("Favourite removed!");
     }  
+    // console.log("favourite added");
     markedFav();
   }
 

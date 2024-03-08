@@ -41,7 +41,7 @@ export default function HomeScreen() {
     // We make a request to the API to get the google maps data from the API
     // JSON.stringify can be removed
     GlobalApi.NewNearByPlace(data).then(resp => {
-      console.log(JSON.stringify(resp.data));
+      // console.log(JSON.stringify(resp.data));
       setPlaceList(resp.data?.places);
     })
   }

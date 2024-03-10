@@ -2,25 +2,24 @@ import { View, Text, StyleSheet } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { UserLocationContext } from '../../Context/UserLocationContext'
-
+import MapViewRoute  from 'react-native-maps-routes'
 import AppMapView from './AppMapView' 
 import Header from './Header'
 import SearchBar from './SearchBar'
 import GlobalApi from './../../Utils/GlobalApi'
 import PlaceListView from './PlaceListView'
 import { SelectMarkerContext } from '../../Context/SelectedMarkerContext'
+import MapView from 'react-native-maps'
 
 export default function HomeScreen() {
   const {location, setLocation} = useContext(UserLocationContext);
   const [placeList, setPlaceList] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState([]);
-
   // The useEffect gets the nearby places, in our case carparks and EV charging points (video tutorial).
   // useEffect basically runs the function in the background. And can execute multiple times as users use the app
   useEffect(() => {
     location&&GetNearByPlace();
   }, [location])
-
   // This sends the type of data that we want to search for. Such as parking. 
   // It also defines the search radius from the user's current location.
   const GetNearByPlace = () => {
@@ -45,7 +44,6 @@ export default function HomeScreen() {
       setPlaceList(resp.data?.places);
     })
   }
-
   return (
     <SelectMarkerContext.Provider value={{selectedMarker, setSelectedMarker}}>
       <SafeAreaView>

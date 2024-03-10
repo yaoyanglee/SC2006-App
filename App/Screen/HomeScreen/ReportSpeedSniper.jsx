@@ -29,14 +29,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     padding: 10,
     borderRadius: 20,
-    marginVertical: 10,
-    width: '50%', // Set the width to half the length of the search bar
+    //marginVertical: 2, //the gap between search bar and this button
+    width: '35%', // Set the width to 35% of the search bar
     alignSelf: 'flex-end', // Align the button to the right
   }, 
   reportButtonText: {
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
+    fontSize: 11, //font size of "Report Speed Sniper"
   },
 });
 

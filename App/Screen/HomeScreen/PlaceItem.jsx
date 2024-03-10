@@ -11,7 +11,7 @@ import { doc, setDoc } from "firebase/firestore";
 import { useUser } from '@clerk/clerk-expo';
 import polyline from '@mapbox/polyline'
 import MapView, { Polyline } from 'react-native-maps';
-import routesAPI from '../../Utils/routesAPI';
+import RoutesApi from '../../Utils/RoutesApi';
 
 
 export default function PlaceItem({ place, isFav, markedFav }) {
@@ -96,7 +96,7 @@ export default function PlaceItem({ place, isFav, markedFav }) {
       "units": "IMPERIAL"
     };
     //We make a request to the API to get the google routes data from the API
-    routesAPI.calculateRoutes(data).then(resp => {
+    RoutesApi.calculateRoutes(data).then(resp => {
       console.log('Request data:', JSON.stringify(resp.data)); //to check the output data 
       //console.log(place?.location.longitude);
       try {

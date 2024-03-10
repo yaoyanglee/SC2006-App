@@ -87,20 +87,4 @@ const styles = StyleSheet.create({
     zIndex: 10,
     width: '100%'
   },
-  //reportSpeedSniper button style
-  reportButton: {
-    backgroundColor: 'red',
-    padding: 10,
-    borderRadius: 20,
-    //position: 'absolute',
-    //top: 150, // Adjust this value as needed, at 150, it is below searchbar on Pixel 6a
-    right: 20,
-    zIndex: 11,
-  },
-  reportButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  /////
-  
 })

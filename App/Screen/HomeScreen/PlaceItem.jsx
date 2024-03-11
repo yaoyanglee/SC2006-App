@@ -15,8 +15,9 @@ import { FixedUserLocationContext } from '../../Context/FixedUserLocationContext
 export default function PlaceItem({place, isFav, markedFav}) {
   const PLACE_PHOTO_BASE_URL = "https://places.googleapis.com/v1/";
 
+  // Getting the starting point of users
   const {userLocation, setUserLocation} = useContext(FixedUserLocationContext);
-  console.log("User Location: ", userLocation);
+  // console.log("User Location: ", userLocation);
 
   // Getting user info to populate the database
   const {user} = useUser();

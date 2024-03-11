@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { UserLocationContext } from '../../Context/UserLocationContext'
 
+import ReportSpeedSniper from './ReportSpeedSniper'
+
 import AppMapView from './AppMapView' 
 import Header from './Header'
 import SearchBar from './SearchBar'
@@ -60,8 +62,11 @@ export default function HomeScreen() {
           {/* Here we basically find the carparks that are near the searched locations that the users have input. The default, aka on app launch, the nearby carparks are displayed first */}
           {/* console.log(location) */}
           <SearchBar searchedLocation={(location)=>setLocation({latitude: location.lat, longitude: location.lng})}/>
+          
+          {/* ReportSpeedSniper button */}
+          <ReportSpeedSniper />
         </View>
-        
+
         <AppMapView placeList={placeList}/>
         <View style={styles.placeListContainer}>
           {placeList&&<PlaceListView placeList={placeList}/>}
@@ -87,5 +92,5 @@ const styles = StyleSheet.create({
     bottom: 0,
     zIndex: 10,
     width: '100%'
-  }
+  },
 })

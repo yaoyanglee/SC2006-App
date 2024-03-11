@@ -11,6 +11,7 @@ import LoginScreen from "./App/Screen/LoginScreen/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import TabNavigation from "./App/Navigations/TabNavigation";
 import { UserLocationContext } from "./App/Context/UserLocationContext";
+import { FixedUserLocationContext } from "./App/Context/FixedUserLocationContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,6 +19,7 @@ export default function App() {
   // Required code for getting user location
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -29,6 +31,7 @@ export default function App() {
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location.coords);
+      setUserLocation(location.coords);
       // IMPORTANT: extract the current user's location
       // console.log(location);
     })();
@@ -83,18 +86,22 @@ export default function App() {
     >
       {/* Wrap the entire app with the UserLocation context so that we can access the user location from any screen in the app */}
       <UserLocationContext.Provider value={{ location, setLocation }}>
-        <View style={styles.container} onLayout={onLayoutRootView}>
-          <SignedIn>
-            <NavigationContainer>
-              <TabNavigation />
-            </NavigationContainer>
-          </SignedIn>
-          <SignedOut>
-            <LoginScreen />
-          </SignedOut>
+        <FixedUserLocationContext.Provider
+          value={{ userLocation, setUserLocation }}
+        >
+          <View style={styles.container} onLayout={onLayoutRootView}>
+            <SignedIn>
+              <NavigationContainer>
+                <TabNavigation userLocation={userLocation} />
+              </NavigationContainer>
+            </SignedIn>
+            <SignedOut>
+              <LoginScreen />
+            </SignedOut>
 
-          <StatusBar style="auto" />
-        </View>
+            <StatusBar style="auto" />
+          </View>
+        </FixedUserLocationContext.Provider>
       </UserLocationContext.Provider>
     </ClerkProvider>
   );

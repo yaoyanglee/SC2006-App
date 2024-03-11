@@ -1,5 +1,5 @@
 import { View, Text, Image, Dimensions, Pressable, Platform, ToastAndroid, Alert } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import Colors from '../../Utils/Colors'
 import GlobalApi from '../../Utils/GlobalApi';
 import { app } from '../../Utils/FirebaseConfig';
@@ -10,14 +10,18 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { deleteDoc, getFirestore } from "firebase/firestore";
 import { doc, setDoc } from "firebase/firestore"; 
 import { useUser } from '@clerk/clerk-expo';
+import { FixedUserLocationContext } from '../../Context/FixedUserLocationContext'
 
 export default function PlaceItem({place, isFav, markedFav}) {
   const PLACE_PHOTO_BASE_URL = "https://places.googleapis.com/v1/";
 
+  const {userLocation, setUserLocation} = useContext(FixedUserLocationContext);
+  console.log("User Location: ", userLocation);
+
   // Getting user info to populate the database
   const {user} = useUser();
 
-  // Initialize Cloud Firestore and get a reference to the service
+  // Initialize Cloud Firestore and get a reference to the servic
   const db = getFirestore(app);
 
   // This feature is extensible to other functionality namely the Report RoadWorks and Report SpeedSniper

@@ -9,11 +9,17 @@ import SearchBar from './SearchBar'
 import GlobalApi from './../../Utils/GlobalApi'
 import PlaceListView from './PlaceListView'
 import { SelectMarkerContext } from '../../Context/SelectedMarkerContext'
+import { FixedUserLocationContext } from '../../Context/FixedUserLocationContext'
 
 export default function HomeScreen() {
   const {location, setLocation} = useContext(UserLocationContext);
+  const {userLocation, setUserLocation} = useContext(FixedUserLocationContext);
   const [placeList, setPlaceList] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState([]);
+
+  // User start location is easily accessible
+  // console.log("User Location: ", userLocation);
+  
 
   // The useEffect gets the nearby places, in our case carparks and EV charging points (video tutorial).
   // useEffect basically runs the function in the background. And can execute multiple times as users use the app

@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Colors from '../Utils/Colors';
 
@@ -12,6 +12,8 @@ import { AntDesign } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator(); 
 export default function TabNavigation() {
+  // console.log("User Location: ", userLocation)
+
   return (
     // Option to remove header
     <Tab.Navigator screenOptions={{headerShown:false}}>

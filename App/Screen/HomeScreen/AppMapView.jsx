@@ -1,5 +1,5 @@
 import {StyleSheet, View, Text } from 'react-native'
-import MapView, { Marker } from 'react-native-maps'
+import MapView, { Marker,Polyline } from 'react-native-maps'
 import React, { useContext } from 'react'
 
 // For customization of the google maps go to
@@ -8,9 +8,9 @@ import MapViewStyle from './../../Utils/MapViewStyle.json'
 import { UserLocationContext } from '../../Context/UserLocationContext'
 import Markers from './Markers'
 
-export default function AppMapView({placeList}) {
+export default function AppMapView({placeList,routes}) {
     const {location, setLocation} = useContext(UserLocationContext);
-
+    //console.log(location?.longitude)
     return location?.latitude&&(
         <View>
             <MapView style={styles.map} provider='google' showsUserLocation={true} customMapStyle={MapViewStyle} region={{

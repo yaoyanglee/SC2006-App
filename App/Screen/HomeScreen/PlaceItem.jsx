@@ -15,16 +15,19 @@ import { app } from '../../Utils/FirebaseConfig';
 import { UserLocationContext } from '../../Context/UserLocationContext'
 import RoutesAPI from './../../Utils/RoutesAPI';
 import { decode, encode } from "@googlemaps/polyline-codec";
-
+import AppMapView from './AppMapView'
 import { Ionicons } from '@expo/vector-icons';
 
 export default function PlaceItem({ place, isFav, markedFav }) {
   const PLACE_PHOTO_BASE_URL = "https://places.googleapis.com/v1/";
 
   // Getting the starting point of users
-  const {userLocation, setUserLocation} = useContext(FixedUserLocationContext);
+  const { userLocation, setUserLocation } = useContext(FixedUserLocationContext);
   // console.log("User Location: ", userLocation);
-
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedRouteCoordinates, setSelectedRouteCoordinates] = useState(null);
+  const { location, setLocation } = useContext(UserLocationContext); //get user's current location
+  const [Routes, setRoutes] = useState([]); //Store Routes
   // Getting user info to populate the database
   const { user } = useUser();
 
@@ -62,9 +65,7 @@ export default function PlaceItem({ place, isFav, markedFav }) {
     // console.log("favourite added");
     markedFav();
   }
- 
-  const { location, setLocation } = useContext(UserLocationContext); //get user's current location
-  const [Routes, setRoutes] = useState([]); //Store Routes
+
   //const [decodedPolyline, setDecodedPolyline] = useState([]);
   const getRoutes = (place) => {
     const data = {
@@ -89,7 +90,7 @@ export default function PlaceItem({ place, isFav, markedFav }) {
       "routingPreference": "TRAFFIC_AWARE",
       "computeAlternativeRoutes": true,
       "routeModifiers": {
-        "vehicleInfo":{
+        "vehicleInfo": {
           "emissionType": "GASOLINE"
         },
         "tollPasses": [
@@ -106,23 +107,10 @@ export default function PlaceItem({ place, isFav, markedFav }) {
     //We make a request to the API to get the google routes data from the API
     RoutesAPI.calculateRoutes(data).then(resp => {
       // console.log('Request data:', resp.data); //to check the output data 
-      // Decoded polyline into coordinate array
-      // console.log("Decoded polyline: ", decode(resp.data.routes[0].polyline.encodedPolyline))
-      //console.log(place?.location.longitude);
       try {
         const routes = resp.data.routes;
         if (routes && routes.length > 0) {
           setRoutes(routes); //store all the routes + alternative routes
-          const decodedCoordinates = decode(routes[0].polyline.encodedPolyline);
-          //const encodedPolyline = routes[0].polyline.encodedPolyline; 
-          // const decodedCoordinates = polyline.decode(encodedPolyline);
-          const coordinates = decodedCoordinates.map(([latitude, longitude]) => ({
-            latitude,
-            longitude,
-          }));
-
-          console.log("Coordinates: ", coordinates)
-          // setDecodedPolyline(coordinates);
           setModalVisible(true); //to show the modal with the routes selection
         }
       } catch (error) {
@@ -133,46 +121,84 @@ export default function PlaceItem({ place, isFav, markedFav }) {
   const onDirectionClick = (place) => {  //get Route Selection for user to choose Routes
     getRoutes(place);
   };
-  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleStartRoute = (index) => {
+    let decodedCoordinates = decode(Routes[index].polyline.encodedPolyline);
+    let coordinate = decodedCoordinates.map(([latitude, longitude]) => ({
+      latitude,
+      longitude,
+    }));
+    setSelectedRouteCoordinates(coordinate);
+    setModalVisible(false);
+  };
+
   return (
-    <View
-      style={{
-        backgroundColor: Colors.WHITE,
-        margin: 5,
-        borderRadius: 10,
-        width: Dimensions.get('screen').width * 0.9,
-        paddingRight: 5,
-        paddingLeft: 5
-      }}
-    >
-      {/* Displays google map images of the carpark if available. Else we use a default image */}
-      <Image source={place?.photos ? { uri: PLACE_PHOTO_BASE_URL + place.photos[0]?.name + "/media?key=" + GlobalApi.API_KEY + "&maxHeightPx=800&maxWidthPx=1200" } : require('./../../../assets/images/logo.png')}
-        style={{ width: '100%', borderRadius: 10, height: 150 }}
-      />
-      <View>
-        <Text style={{ fontSize: 20, fontFamily: 'outfit-medium' }}>{place?.displayName?.text}</Text>
-        <Text style={{ color: Colors.GRAY, fontFamily: 'outfit' }}>{place?.shortFormattedAddress}</Text>
-        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 10 }}>
-          <Pressable onPress={() => onDirectionClick(place)} style={{ padding: 12, backgroundColor: Colors.PRIMARY, borderRadius: 6, paddingHorizontal: 14 }}>
-            <FontAwesome6 name="location-arrow" size={24} color="black" />
-          </Pressable>
+    <>
+      <View
+        style={{
+          backgroundColor: Colors.WHITE,
+          margin: 5,
+          borderRadius: 10,
+          width: Dimensions.get('screen').width * 0.9,
+          paddingRight: 5,
+          paddingLeft: 5,
+        }}>
+        <Image
+          source={
+            place?.photos
+              ? { uri: `${PLACE_PHOTO_BASE_URL}${place.photos[0]?.name}/media?key=${GlobalApi.API_KEY}&maxHeightPx=800&maxWidthPx=1200` }
+              : require('./../../../assets/images/logo.png')
+          }
+          style={{ width: '100%', borderRadius: 10, height: 150 }}
+        />
+        <View>
+          <Text style={{ fontSize: 20, fontFamily: 'outfit-medium' }}>
+            {place?.displayName?.text}
+          </Text>
+          <Text style={{ color: Colors.GRAY, fontFamily: 'outfit' }}>
+            {place?.shortFormattedAddress}
+          </Text>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginTop: 10,
+            }}>
+            <Pressable
+              onPress={() => onDirectionClick(place)}
+              style={{
+                padding: 12,
+                backgroundColor: Colors.PRIMARY,
+                borderRadius: 6,
+                paddingHorizontal: 14,
+              }}>
+              <FontAwesome6 name="location-arrow" size={24} color="black" />
+            </Pressable>
+          </View>
         </View>
+        {!isFav ? (
+          <Pressable
+            style={{ position: 'absolute', right: 0, margin: 7 }}
+            onPress={() => onSetFav(place)}>
+            <Ionicons name="heart-outline" size={24} color="white" />
+          </Pressable>
+        ) : (
+          <Pressable
+            style={{ position: 'absolute', right: 0, margin: 7 }}
+            onPress={() => onRemoveFav(place.id)}>
+            <Ionicons name="heart-sharp" size={24} color="red" />
+          </Pressable>
+        )}
       </View>
-      {/* Only change heart icon depending if the item is favourited or not */}
-      {!isFav ? <Pressable style={{ position: 'absolute', right: 0, margin: 7 }} onPress={() => onSetFav(place)}>
-        <Ionicons name="heart-outline" size={24} color="white" />
-      </Pressable>
-        :
-        <Pressable style={{ position: 'absolute', right: 0, margin: 7 }} onPress={() => onRemoveFav(place.id)}>
-          <Ionicons name="heart-sharp" size={24} color="red" />
-        </Pressable>}
-      {/* To show routes selection to Users*/}
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>Please Select Your Route to this Car Park</Text>
@@ -184,9 +210,7 @@ export default function PlaceItem({ place, isFav, markedFav }) {
                 <Pressable
                   style={[styles.buttonClose]}
                   onPress={() => {
-                    // need to add logic where after user clicks start, a route will be drawn (Still stuck atm)
-                    console.log("Start button pressed for route", index + 1);
-                    setModalVisible(false)
+                    handleStartRoute(index)
                   }}
                 >
                   <Text style={styles.textStyle}>Start</Text>
@@ -197,8 +221,9 @@ export default function PlaceItem({ place, isFav, markedFav }) {
           </View>
         </View>
       </Modal>
-    </View>
-  )
+        {selectedRouteCoordinates && <AppMapView coordinate={selectedRouteCoordinates} placeList={[place]}/>}
+    </>
+  );
 }
 const styles = StyleSheet.create({
   centeredView: {

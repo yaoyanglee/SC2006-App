@@ -19,7 +19,6 @@ export default function HomeScreen() {
   const {userLocation, setUserLocation} = useContext(FixedUserLocationContext);
   const [placeList, setPlaceList] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState([]);
-
   // User start location is easily accessible
   // console.log("User Location: ", userLocation);
   
@@ -66,14 +65,12 @@ export default function HomeScreen() {
           <ReportSpeedSniper />
         </View>
 
-        <AppMapView placeList={placeList}/>
+        {<AppMapView placeList={placeList}/>}
         <View style={styles.placeListContainer}>
           {placeList&&<PlaceListView placeList={placeList}/>}
         </View>
       </SafeAreaView>
     </SelectMarkerContext.Provider>
-    
-    
   )
 }
 

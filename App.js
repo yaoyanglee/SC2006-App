@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/clerk-expo";
@@ -13,6 +13,9 @@ import TabNavigation from "./App/Navigations/TabNavigation";
 import { UserLocationContext } from "./App/Context/UserLocationContext";
 import { FixedUserLocationContext } from "./App/Context/FixedUserLocationContext";
 
+import { RouteContext } from "./App/Context/RouteContext";
+import { PlaceContext } from "./App/Context/PlaceContext";
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
@@ -20,6 +23,9 @@ export default function App() {
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
+
+  const [routeCoordinate, setRouteCoordinate] = useState([]);
+  const [places, setPlaces] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -89,18 +95,24 @@ export default function App() {
         <FixedUserLocationContext.Provider
           value={{ userLocation, setUserLocation }}
         >
-          <View style={styles.container} onLayout={onLayoutRootView}>
-            <SignedIn>
-              <NavigationContainer>
-                <TabNavigation userLocation={userLocation} />
-              </NavigationContainer>
-            </SignedIn>
-            <SignedOut>
-              <LoginScreen />
-            </SignedOut>
+          <RouteContext.Provider
+            value={{ routeCoordinate, setRouteCoordinate }}
+          >
+            <PlaceContext.Provider value={{ places, setPlaces }}>
+              <View style={styles.container} onLayout={onLayoutRootView}>
+                <SignedIn>
+                  <NavigationContainer>
+                    <TabNavigation userLocation={userLocation} />
+                  </NavigationContainer>
+                </SignedIn>
+                <SignedOut>
+                  <LoginScreen />
+                </SignedOut>
 
-            <StatusBar style="auto" />
-          </View>
+                <StatusBar style="auto" />
+              </View>
+            </PlaceContext.Provider>
+          </RouteContext.Provider>
         </FixedUserLocationContext.Provider>
       </UserLocationContext.Provider>
     </ClerkProvider>

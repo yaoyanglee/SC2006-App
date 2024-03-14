@@ -60,8 +60,9 @@ export default function PlaceListView({ placeList }) {
       // doc.data() is never undefined for query doc snapshots
       // console.log(doc.id, " => ", doc.data());
       setFavList((favList) => [...favList, doc.data()]);
-      setLoading(false);
     });
+    // Shifted setLoading out of the forEach loop
+    setLoading(false);
   };
 
   // Check if a carpark is considered a favourite

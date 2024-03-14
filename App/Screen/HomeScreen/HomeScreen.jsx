@@ -18,14 +18,14 @@ import MapView from "react-native-maps";
 
 export default function HomeScreen() {
   const { location, setLocation } = useContext(UserLocationContext);
-  const { userLocation, setUserLocation } = useContext(
-    FixedUserLocationContext
-  );
+  const { userLocation, setUserLocation } = useContext(UserLocationContext);
   const [placeList, setPlaceList] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState([]);
   // Test
-  const [routeCoordinate, setRouteCoordinate] = useState([]);
-  const [places, setPlaces] = useState(null);
+  // const [routeCoordinate, setRouteCoordinate] = useState(null);
+  // const [places, setPlaces] = useState(null);
+  const { routeCoordinate, setRouteCoordinate } = useContext(RouteContext);
+  const { places, setPlaces } = useContext(PlaceContext);
   // End Test
 
   // console.log("Route Coordinates: ", routeCoordinates);
@@ -64,35 +64,36 @@ export default function HomeScreen() {
       setPlaces(resp.data?.places);
     });
   };
+
   return (
     <SelectMarkerContext.Provider value={{ selectedMarker, setSelectedMarker }}>
-      <RouteContext.Provider value={{ routeCoordinate, setRouteCoordinate }}>
-        <PlaceContext.Provider value={{ places, setPlaces }}>
-          <SafeAreaView>
-            <View style={styles.headerContainer}>
-              <Header />
-              {/* Here we basically find the carparks that are near the searched locations that the users have input. The default, aka on app launch, the nearby carparks are displayed first */}
-              {/* console.log(location) */}
-              <SearchBar
-                searchedLocation={(location) =>
-                  setLocation({
-                    latitude: location.lat,
-                    longitude: location.lng,
-                  })
-                }
-              />
+      {/* <RouteContext.Provider value={{ routeCoordinate, setRouteCoordinate }}>
+        <PlaceContext.Provider value={{ places, setPlaces }}> */}
+      <SafeAreaView>
+        <View style={styles.headerContainer}>
+          <Header />
+          {/* Here we basically find the carparks that are near the searched locations that the users have input. The default, aka on app launch, the nearby carparks are displayed first */}
+          {/* console.log(location) */}
+          <SearchBar
+            searchedLocation={(location) =>
+              setLocation({
+                latitude: location.lat,
+                longitude: location.lng,
+              })
+            }
+          />
 
-              {/* ReportSpeedSniper button */}
-              <ReportSpeedSniper />
-            </View>
+          {/* ReportSpeedSniper button */}
+          <ReportSpeedSniper />
+        </View>
 
-            {<AppMapView placeList={placeList} />}
-            <View style={styles.placeListContainer}>
-              {placeList && <PlaceListView placeList={placeList} />}
-            </View>
-          </SafeAreaView>
-        </PlaceContext.Provider>
-      </RouteContext.Provider>
+        {<AppMapView placeList={placeList} />}
+        <View style={styles.placeListContainer}>
+          {placeList && <PlaceListView placeList={placeList} />}
+        </View>
+      </SafeAreaView>
+      {/* </PlaceContext.Provider>
+      </RouteContext.Provider> */}
     </SelectMarkerContext.Provider>
   );
 }

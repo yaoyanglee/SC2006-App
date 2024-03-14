@@ -1,4 +1,11 @@
-import { View, Text, Image, StyleSheet, SafeAreaView, TouchableOpacity} from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import * as WebBrowser from "expo-web-browser";
 import { useWarmUpBrowser } from "../../../hooks/useWarmUpBrowser";
@@ -12,13 +19,13 @@ export default function loginScreen() {
   useWarmUpBrowser();
   const { startOAuthFlow } = useOAuth({ strategy: "oauth_google" });
 
-  // Setting up onPress functionality for OAuth authentication using gmail. 
+  // Setting up onPress functionality for OAuth authentication using gmail.
   // Used in the login button as a callback function
   const onPress = async () => {
     try {
       const { createdSessionId, signIn, signUp, setActive } =
         await startOAuthFlow();
- 
+
       if (createdSessionId) {
         setActive({ session: createdSessionId });
       } else {
@@ -27,29 +34,42 @@ export default function loginScreen() {
     } catch (err) {
       console.error("OAuth error", err);
     }
-  }
+  };
 
   return (
     <SafeAreaView>
       {/* Defining and styling the logo and image for aesthetics */}
-      <View style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 50
-      }}>
-        <Image source={require('./../../../assets/images/waze-logo-png-transparent.png')} 
+      <View
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: 50,
+        }}
+      >
+        <Image
+          source={require("./../../../assets/images/waze-logo-png-transparent.png")}
           style={styles.logoImage}
         />
-        <Image source={require('./../../../assets/images/login-logo.jpg')}
+        <Image
+          source={require("./../../../assets/images/login-logo.jpg")}
           style={styles.bgImage}
         />
         {/* Component for the headings, description and login button */}
-        <View style={{padding:20}}>
+        <View style={{ padding: 20 }}>
           <Text style={styles.heading}>Your ultimate navigation App</Text>
           <Text style={styles.desc}>Find, travel and park with ease!</Text>
           <TouchableOpacity style={styles.button} onPress={onPress}>
-            <Text style={{color: Colors.WHITE, textAlign:'center', fontFamily:'outfit', fontSize:17}}>Login with Google</Text>
+            <Text
+              style={{
+                color: Colors.WHITE,
+                textAlign: "center",
+                fontFamily: "outfit",
+                fontSize: 17,
+              }}
+            >
+              Login with Google
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -59,36 +79,35 @@ export default function loginScreen() {
 
 // StyleSheets object. Similar to Python dictionary
 const styles = StyleSheet.create({
-  logoImage:{
+  logoImage: {
     width: 200,
     height: 40,
-    objectFit:'contain'
+    objectFit: "contain",
   },
   bgImage: {
-    width: '100%',
+    width: "100%",
     height: 240,
     marginTop: 20,
-    objectFit: 'cover'
+    objectFit: "cover",
   },
-  heading:{
+  heading: {
     fontSize: 25,
-    fontFamily: 'outfit-bold',
-    textAlign:'center',
-    marginTop: 20
+    fontFamily: "outfit-bold",
+    textAlign: "center",
+    marginTop: 20,
   },
   desc: {
     fontSize: 17,
-    fontFamily: 'outfit',
+    fontFamily: "outfit",
     marginTop: 15,
-    textAlign: 'center',
+    textAlign: "center",
     color: Colors.GRAY,
   },
   button: {
     backgroundColor: Colors.PRIMARY,
     padding: 16,
-    display: 'flex',
+    display: "flex",
     borderRadius: 99,
-    marginTop: 40
-  }
-})
-
+    marginTop: 40,
+  },
+});

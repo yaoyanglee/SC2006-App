@@ -41,8 +41,8 @@ export default function PlaceItem({ place, isFav, markedFav }) {
     FixedUserLocationContext
   );
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedRouteCoordinates, setSelectedRouteCoordinates] =
-    useState(null);
+  // const [selectedRouteCoordinates, setSelectedRouteCoordinates] =
+  //   useState(null);
   const { location, setLocation } = useContext(UserLocationContext); //get user's current location
   const [Routes, setRoutes] = useState([]); //Store Routes
   const { routeCoordinate, setRouteCoordinate } = useContext(RouteContext);
@@ -149,7 +149,7 @@ export default function PlaceItem({ place, isFav, markedFav }) {
       latitude,
       longitude,
     }));
-    setSelectedRouteCoordinates(coordinate);
+    // setSelectedRouteCoordinates(coordinate);
     // Test Start
     setRouteCoordinate(coordinate);
     setPlaces([place]);

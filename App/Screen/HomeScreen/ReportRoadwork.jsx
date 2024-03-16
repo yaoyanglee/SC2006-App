@@ -6,38 +6,38 @@ import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 const database = getFirestore(app);
 
-const ReportSpeedSniper = () => {
+const ReportRoadwork = () => {
   const { location } = useContext(UserLocationContext);
 
-  const reportSpeedSniper = async () => {
-    const sniperLocation = {
+  const reportRoadwork = async () => {
+    const roadworkLocation = {
       latitude: location.latitude,
       longitude: location.longitude,
-      type: 'speed_sniper', // Add a type to identify speed sniper markers
+      type: 'roadwork', // Add a type to identify roadwork markers
     };
 
     try {
-      // Add the location to the 'speed_snipers' collection in Firestore
-      await addDoc(collection(database, 'speed_snipers'), sniperLocation);
-      console.log('Speed Sniper reported successfully:', sniperLocation);
-    } catch (error) {
-      console.error('Error reporting Speed Sniper:', error);
-    }
+        // Add the location to the 'speed_snipers' collection in Firestore
+        await addDoc(collection(database, 'roadwork'), roadworkLocation);
+        console.log('Roadwork reported successfully:', roadworkLocation);
+      } catch (error) {
+        console.error('Error reporting Roadwork:', error);
+      }
   };
 
   return (
-    <TouchableOpacity style={styles.reportButton} onPress={reportSpeedSniper}>
-      <Text style={styles.reportButtonText}>Report Speed Sniper</Text>
+    <TouchableOpacity style={styles.reportButton} onPress={reportRoadwork}>
+      <Text style={styles.reportButtonText}>Report Roadwork</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   reportButton: {
-    backgroundColor: 'red',
+    backgroundColor: 'orange',
     padding: 10,
-    borderRadius: 20,
-    //marginVertical: 2, //the gap between search bar and this button
+    borderRadius: 30,
+    marginVertical: 5, //the gap between ReportSpeedSniper and this button
     width: '35%', // Set the width to 35% of the search bar
     alignSelf: 'flex-end', // Align the button to the right
   }, 
@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     textAlign: 'center',
-    fontSize: 11, //font size of "Report Speed Sniper"
+    fontSize: 11, //font size of "Report Roadwork"
   },
 });
 
-export default ReportSpeedSniper;
+export default ReportRoadwork;

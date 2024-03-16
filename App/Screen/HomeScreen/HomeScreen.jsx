@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { UserLocationContext } from "../../Context/UserLocationContext";
 
 import ReportSpeedSniper from "./ReportSpeedSniper";
+import ReportRoadwork from "./ReportRoadwork";
 import MapViewRoute from "react-native-maps-routes";
 import AppMapView from "./AppMapView";
 import Header from "./Header";
@@ -85,6 +86,8 @@ export default function HomeScreen() {
 
           {/* ReportSpeedSniper button */}
           <ReportSpeedSniper />
+          {/* ReportRoadwork button */}
+          <ReportRoadwork />
         </View>
 
         {<AppMapView placeList={placeList} />}

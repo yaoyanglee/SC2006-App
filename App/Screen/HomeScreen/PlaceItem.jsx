@@ -32,6 +32,7 @@ import RoutesAPI from "../../Utils/routesAPI";
 import { decode, encode } from "@googlemaps/polyline-codec";
 import AppMapView from "./AppMapView";
 import { Ionicons } from "@expo/vector-icons";
+import GetCurrentEta from "./GetCurrentEta";
 
 export default function PlaceItem({ place, isFav, markedFav }) {
   const PLACE_PHOTO_BASE_URL = "https://places.googleapis.com/v1/";
@@ -156,7 +157,12 @@ export default function PlaceItem({ place, isFav, markedFav }) {
     // Test End
     setModalVisible(false);
   };
-
+  const convertDurationToTime = (duration) => {  //convert duration which is in String format to time
+    const durationInSeconds = parseInt(duration.replace('s', ''));
+    const hours = Math.floor(durationInSeconds / 3600);
+    const minutes = Math.floor((durationInSeconds % 3600) / 60);
+    return `${hours} hr ${minutes} min`;
+  };
   return (
     <>
       <View
@@ -241,10 +247,11 @@ export default function PlaceItem({ place, isFav, markedFav }) {
             {Routes.map((route, index) => (
               <View key={index} style={styles.routeContainer}>
                 <Text style={styles.routeText}>Route {index + 1}</Text>
-                <Text style={styles.routeText}>Duration: {route.duration}</Text>
+                <Text style={styles.routeText}>Duration: {convertDurationToTime(route.duration)}</Text>
                 <Text style={styles.routeText}>
-                  Distance: {route.distanceMeters} meters
+                  Distance: {parseFloat((route.distanceMeters / 1000).toFixed(2))} km
                 </Text>
+                <GetCurrentEta routeDuration={route.duration} />
                 <Pressable
                   style={[styles.buttonClose]}
                   onPress={() => {

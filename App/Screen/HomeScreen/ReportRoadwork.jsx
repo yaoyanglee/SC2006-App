@@ -17,7 +17,7 @@ const ReportRoadwork = () => {
     };
 
     try {
-        // Add the location to the 'speed_snipers' collection in Firestore
+        // Add the location to the 'roadwork' collection in Firestore
         await addDoc(collection(database, 'roadwork'), roadworkLocation);
         console.log('Roadwork reported successfully:', roadworkLocation);
       } catch (error) {

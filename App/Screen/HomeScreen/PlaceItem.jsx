@@ -193,6 +193,9 @@ export default function PlaceItem({ place, isFav, markedFav }) {
           <Text style={{ color: Colors.GRAY, fontFamily: "outfit" }}>
             {place?.shortFormattedAddress}
           </Text>
+          <Text>
+            Available Lots: {place.carparkInfo?.carpark_info[0]?.lots_available} / {place.carparkInfo?.carpark_info[0]?.total_lots}
+          </Text>
           <View
             style={{
               display: "flex",

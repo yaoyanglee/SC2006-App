@@ -16,6 +16,7 @@ import { FixedUserLocationContext } from "../../Context/FixedUserLocationContext
 import { RouteContext } from "../../Context/RouteContext";
 import { PlaceContext } from "../../Context/PlaceContext";
 import MapView from "react-native-maps";
+import carparkAvailabilityAPI from "../../Utils/carparkAvailabilityAPI";
 
 export default function HomeScreen() {
   const { location, setLocation } = useContext(UserLocationContext);
@@ -63,7 +64,34 @@ export default function HomeScreen() {
       // console.log(JSON.stringify(resp.data));
       setPlaceList(resp.data?.places);
       setPlaces(resp.data?.places);
+      fetchCarparkAvailability(resp.data?.places);
     });
+
+  };
+  
+  const fetchCarparkAvailability = async (places) => {
+    try {
+      const currentDateTime = new Date().toISOString();
+      const data = await carparkAvailabilityAPI.fetchCarparkAvailability(currentDateTime);
+      const carparkData = data.items[0].carpark_data;
+      console.log(carparkData[0].carpark_info[0].lots_available)
+      const placesWithAvailability = places.map((place) => {
+        const carparkInfo = carparkData.find(
+          (carpark) => carpark.carpark_number == place.displayName.text,
+        );
+       if(carparkInfo !== undefined){
+        return {
+          ...place,
+          carparkInfo,
+        };
+       };
+      }).filter(place => place);
+  
+      setPlaceList(placesWithAvailability);
+      setPlaces(placesWithAvailability);
+    } catch (error) {
+      console.error("Error fetching carpark availability:", error);
+    }
   };
 
   return (
@@ -117,3 +145,4 @@ const styles = StyleSheet.create({
     width: "100%",
   },
 });
+

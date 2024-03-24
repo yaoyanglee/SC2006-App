@@ -11,11 +11,9 @@ import { RouteContext } from "../../Context/RouteContext";
 import { PlaceContext } from "../../Context/PlaceContext";
 
 // For roadworks and speed sniper display:
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
 import { app } from '../../Utils/FirebaseConfig'; // Firebase config
-import { Image } from 'react-native';
-import { Alert } from 'react-native';
-import { doc, deleteDoc } from 'firebase/firestore';
+import { Image, Alert } from 'react-native';
 
 const database = getFirestore(app);
 
@@ -28,35 +26,47 @@ export default function AppMapView({ placeList }) {
   const { routeCoordinate, setRouteCoordinate } = useContext(RouteContext);
   const { places, setPlaces } = useContext(PlaceContext);
 
-  //Display roadworks and speed snipers
+  // Display roadworks and speed snipers
   const [roadworks, setRoadworks] = useState([]);
   const [speedSnipers, setSpeedSnipers] = useState([]);
 
+  // useEffect hook sets up the real-time listeners and return a cleanup 
+  // function to unsubscribe from the updates when the component unmounts
   useEffect(() => {
-    fetchRoadworks();
-    fetchSpeedSnipers();
+    const unsubscribeRoadworks = fetchRoadworks();
+    const unsubscribeSpeedSnipers = fetchSpeedSnipers();
+  
+    // Cleanup function to unsubscribe from the listeners
+    return () => {
+      unsubscribeRoadworks();
+      unsubscribeSpeedSnipers();
+    };
   }, []);
 
-  const fetchRoadworks = async () => {
-    const querySnapshot = await getDocs(collection(database, 'roadwork'));
-    const roadworkList = [];
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      data.id = doc.id; // Store the document ID in the data object
-      roadworkList.push(data);
+  const fetchRoadworks = () => {
+    const unsubscribe = onSnapshot(collection(database, 'roadwork'), (querySnapshot) => {
+      const roadworkList = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        data.id = doc.id; // Store the document ID in the data object
+        roadworkList.push(data);
+      });
+      setRoadworks(roadworkList);
     });
-    setRoadworks(roadworkList);
+    return unsubscribe; // Return the unsubscribe function to stop listening for updates
   };
 
-  const fetchSpeedSnipers = async () => {
-    const querySnapshot = await getDocs(collection(database, 'speed_snipers'));
-    const sniperList = [];
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      data.id = doc.id; // Store the document ID in the data object
-      sniperList.push(data);
+  const fetchSpeedSnipers = () => {
+    const unsubscribe = onSnapshot(collection(database, 'speed_snipers'), (querySnapshot) => {
+      const sniperList = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        data.id = doc.id; // Store the document ID in the data object
+        sniperList.push(data);
+      });
+      setSpeedSnipers(sniperList);
     });
-    setSpeedSnipers(sniperList);
+    return unsubscribe; // Return the unsubscribe function to stop listening for updates
   };
 
   // Handles what happened when marker is pressed

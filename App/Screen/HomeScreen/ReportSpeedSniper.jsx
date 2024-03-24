@@ -55,7 +55,7 @@ const ReportSpeedSniper = () => {
     });
 
     // Check if the new location is within the specified radius of any existing speed sniper markers
-    const radius = 50; // Set the radius in meters CHANGE THIS THRESHOLD
+    const radius = 50; // Set the radius in meters <- THRESHOLD!
     if (!isWithinRadius(sniperLocation, existingSnipers, radius)) {
       try {
         // Add the location to the 'speed_snipers' collection in Firestore

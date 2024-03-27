@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const BASE_URL = "https://routes.googleapis.com/directions/v2:computeRoutes";
-const API_KEY = "AIzaSyCP3tJTZj2P_HIwypapSk96gXDAWtRy8pY";
+const API_KEY = "AIzaSyCxc1r3WrUaXEDvbOUQr_dnA8l4J0CAxog";
 const config = {
   headers: {
     "content-type": "application/json",
